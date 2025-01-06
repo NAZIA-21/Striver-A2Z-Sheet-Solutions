@@ -1,0 +1,39 @@
+Approach 1: Using HashMap
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+     
+       Map<Character , Integer> charToIdxS= new HashMap<>();
+       Map<Character , Integer> charToIdxT= new HashMap<>();
+
+       for(Integer i=0; i<s.length() ; i++){
+
+        if(charToIdxS.put(s.charAt(i) , i) != charToIdxT.put(t.charAt(i), i))
+          return false;
+
+       }
+        return true;
+    }
+}
+
+
+Approach 2: Using Array
+class Solution {
+    public boolean isIsomorphic(String s, String t) {
+        int []lastSeenPosOfS= new int [256];
+        int []lastSeenPosOfT= new int [256];
+
+        for(int i=0; i<s.length(); i++){
+
+            char charFromS= s.charAt(i);
+            char charFromT= t.charAt(i);
+
+            if(lastSeenPosOfS[charFromS] != lastSeenPosOfT[charFromT]){
+                return false;
+            }
+            lastSeenPosOfS[charFromS]= i+1;
+            lastSeenPosOfT[charFromT]= i+1;
+        }
+
+        return true;
+    }
+}
