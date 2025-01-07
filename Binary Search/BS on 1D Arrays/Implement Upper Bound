@@ -1,18 +1,19 @@
-class Solution {
-    
-    public int[] getFloorAndCeil(int x, int[] arr) {
-        int floor = -1;  
-        int ceil = -1;   
+public class Solution {
+    public static int upperBound(int []arr, int x, int n){
+        int low=0;
+        int high=n-1;
+        int ans= n;
 
-        for (int num : arr) { 
-            if (num <= x) {
-                floor = Math.max(floor, num);
-            }
-            if (num >= x) {
-                ceil = (ceil == -1) ? num : Math.min(ceil, num);
+        while(low <= high){
+            int mid= (low + high)/2;
+
+            if(arr[mid] > x){
+                ans= mid;
+                high= mid-1;
+            } else{
+                low = mid+1;
             }
         }
-
-        return new int[] {floor, ceil};
+        return ans;
     }
 }
