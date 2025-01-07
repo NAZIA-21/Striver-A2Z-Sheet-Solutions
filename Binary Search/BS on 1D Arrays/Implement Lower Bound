@@ -1,0 +1,49 @@
+//Apprroach 1: TC: O(N)
+class Solution {
+
+    static int findFloor(int[] arr, int k) {
+        int n= arr.length;
+        
+        if(k >= arr[n-1]){
+            return n-1;
+        }
+        
+        if(k < arr[0]){
+            return -1;
+        }
+        
+        for(int i=1; i<n ; i++){
+            if(arr[i] > k){
+                return i-1;
+            }
+        }
+        return -1;
+    }
+}
+
+//Approach 2: TC: O(logN)
+class Solution {
+
+    static int findFloor(int[] arr, int k) {
+        int n= arr.length;
+        return floorSearch(arr, 0, n-1, k);
+    }
+    
+    static int floorSearch(int[] arr, int low , int high, int k){
+        if(low > high) return -1;
+        
+        if(k >= arr[high]) return high;
+        
+        int mid= low + (high - low)/2;
+        
+        if(arr[mid] == k) return mid;
+        
+        if(mid > 0 && arr[mid-1] <=k && k < arr[mid]) return mid -1;
+        
+        if(k < arr[mid]){
+            return floorSearch(arr, low, mid -1 , k);
+        }
+        
+        return floorSearch (arr, mid +1 , high , k);
+    }
+}
