@@ -1,0 +1,22 @@
+import java.util.* ;
+import java.io.*; 
+
+public class Solution {
+    public static int[] getFloorAndCeil(int[] a, int n, int x) {
+      int floor=-1;
+      int ceil=-1;
+
+      for(int num : a){
+
+        if(num <= x){
+          floor= Math.max(num , floor);
+        } 
+        
+        if(num >= x){
+          ceil = (ceil == -1)? num : Math.min(num , ceil);
+        }
+
+      }
+      return new int[] {floor, ceil};
+    }    
+}
