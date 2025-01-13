@@ -1,0 +1,30 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+        if(nums == null || nums.length == 0) return new int[] {-1, -1};
+
+        int left= findFirstOccurence(nums, target);
+        if(left == nums.length || nums[left] != target) return new int[] {-1, -1};
+
+        int right = findFirstOccurence(nums , target +1) -1;
+        
+        return new int[] {left , right};
+    }
+
+    private int findFirstOccurence(int[] nums , int target){
+        int n= nums.length;
+
+        int left= 0;
+        int right= n;
+        
+        while(left < right){
+            int mid= (left + right)/2;
+
+            if(nums[mid] >= target){
+                right = mid;
+            }else{
+                left = mid+1;
+            }
+        }
+        return left;
+    }
+}
