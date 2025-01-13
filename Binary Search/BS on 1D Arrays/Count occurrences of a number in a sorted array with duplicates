@@ -1,0 +1,58 @@
+//Method 1: TC-O(N)
+class Solution {
+    int countFreq(int[] arr, int target) {
+        int count=0;
+        
+        for(int i=0; i< arr.length ; i++){
+            if(arr[i] == target){
+                count++;
+            }
+        }
+        return count;
+    }
+}
+
+
+//Method 2: TC-O(logN)
+class Solution {
+    
+    int UpperBound(int [] arr ,int target){
+        int low=0;
+        int high= arr.length-1;
+        int val= arr.length;
+        
+        while(low <= high){
+            int mid= (low + high)/2;
+            
+            if(arr[mid] > target){
+                val= mid;
+                high= mid-1;
+            }else{
+                low= mid+1;
+            }
+        }
+        return val;
+    }
+    
+    int lowerBound(int [] arr ,int target){
+        int low=0;
+        int high= arr.length-1;
+        int val= arr.length;
+        
+        while(low <= high){
+            int mid= (low + high)/2;
+            
+            if(arr[mid] >= target){
+                val= mid;
+                high= mid-1;
+            }else{
+                low= mid+1;
+            }
+        }
+        return val;
+    }
+    
+    int countFreq(int[] arr, int target) {
+        return UpperBound(arr, target) - lowerBound(arr, target);
+    }
+}
