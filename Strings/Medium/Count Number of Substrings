@@ -1,0 +1,39 @@
+class Solution {
+    
+    int countSubstrKdistChar(String s, int k){
+        int left=0;
+        int right=0;
+        int n= s.length();
+        int distCnt=0;
+        int substrCnt=0;
+        
+        int[] charFreq= new int[26];
+        
+        while(right < n){
+            int charIdx= s.charAt(right) - 'a';
+            charFreq[charIdx]++;
+            
+            if(charFreq[charIdx] == 1){
+                distCnt++;
+            }
+            
+            while(distCnt > k){
+                charFreq[s.charAt(left) - 'a']--;
+                
+                if(charFreq[s.charAt(left) - 'a'] == 0){
+                    distCnt--;
+                }
+                
+                left++;
+            }
+            
+            substrCnt += (right - left +1);
+            right ++;
+        }
+        return substrCnt;
+    }
+    
+    int countSubstr(String s, int k) {
+       return countSubstrKdistChar(s , k) - countSubstrKdistChar(s , k-1);
+    }
+}
