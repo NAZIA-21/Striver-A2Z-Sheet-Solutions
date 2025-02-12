@@ -1,0 +1,23 @@
+class Solution {
+    public static int totalElements(Integer[] arr) {
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        int start = 0;
+        int maxLen = 0;
+        
+        for (int end = 0; end < arr.length; end++) {
+            freqMap.put(arr[end], freqMap.getOrDefault(arr[end], 0) + 1);
+            
+            while (freqMap.size() > 2) {
+                freqMap.put(arr[start], freqMap.get(arr[start]) - 1);
+                if (freqMap.get(arr[start]) == 0) {
+                    freqMap.remove(arr[start]);
+                }
+                start++; 
+            }
+            
+            maxLen = Math.max(maxLen, end - start + 1);
+        }
+        
+        return maxLen;
+    }
+}
