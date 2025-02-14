@@ -1,0 +1,21 @@
+class Solution {
+    public int characterReplacement(String s, int k) {
+        int letterCnt[] = new int[26];
+        int start=0;
+        int end;
+        int maxCnt=0;
+
+        for(end =0; end < s.length(); end++){
+            int currChar = s.charAt(end);
+            letterCnt[currChar - 'A']++;
+
+            maxCnt = Math.max(maxCnt , letterCnt[currChar - 'A']);
+
+            if(end - start + 1 - maxCnt > k){
+                letterCnt[s.charAt(start) - 'A']--;
+                start++;
+            }
+        }
+        return end - start;
+    }
+}
