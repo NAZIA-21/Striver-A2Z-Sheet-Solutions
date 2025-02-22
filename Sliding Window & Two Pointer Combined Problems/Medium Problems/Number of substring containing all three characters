@@ -1,0 +1,45 @@
+//Approach 1: Sliding window
+class Solution {
+    public int numberOfSubstrings(String s) {
+        int latestPosition[] = new int[]{-1, -1, -1};
+        int ans = 0;
+
+        for(int i=0; i< s.length(); i++){
+            char currChar= s.charAt(i);
+
+            latestPosition[currChar - 'a'] = i;
+
+            int minPosition = Math.min(latestPosition[0] , Math.min(latestPosition[1] , latestPosition[2]));
+
+            ans += minPosition +1;
+        }
+        return ans;    
+    }
+}
+
+//Approach 2: Sliding window , Two pointer
+class Solution {
+    public int numberOfSubstrings(String s) {
+        Map<Character , Integer> map = new HashMap<>();
+
+        int cnt=0;
+        int start=0;
+        int end=0;
+        int len = s.length();
+
+        while(end < len){
+            char currChar= s.charAt(end);
+            map.put(currChar , map.getOrDefault(currChar , 0)+1);
+
+            while(map.getOrDefault('a' , 0) > 0 && map.getOrDefault('b' , 0) > 0 && map.getOrDefault('c' , 0) > 0){
+                cnt += len - end;
+
+                currChar= s.charAt(start);
+                map.put(currChar , map.get(currChar) -1);
+                start++;
+            }
+            end++;
+        }
+        return cnt;
+    }
+}
