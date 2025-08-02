@@ -1,5 +1,3 @@
-//LeetCode 876. Middle of the Linked List
-
 //Approach 1 : Brute force
 //TC : O(n) + O(n/2) = O(n)
 //SC : O(1)
