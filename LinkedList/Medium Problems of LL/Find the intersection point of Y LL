@@ -1,0 +1,70 @@
+//Approach 1 : Brute force approach
+//TC : O(m*n)
+//SC : 0(1)
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode ha= headA;
+
+        while(ha != null){
+            ListNode hb= headB;
+
+            while(hb != null){
+                if(ha == hb){
+                    return ha;
+                }
+                hb = hb.next;
+            }
+            ha = ha.next;
+        }
+        
+        return null;
+    }
+}
+
+//Approach 2 : Using hashSet
+//TC : O(m+n)
+//SC : 0(n)
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode ha= headA;
+        ListNode hb= headB;
+
+        HashSet<ListNode> set= new HashSet<>();
+
+        while(ha != null){
+            set.add(ha);
+            ha= ha.next;
+        }
+
+        while(hb != null){
+            if(set.contains(hb)){
+                return hb;
+            }
+            hb= hb.next;
+        }
+        return null;
+    }
+}
+
+
+//Approach 3 : Two pointer approach
+//TC : O(m+n)
+//SC : 0(1)
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+
+        if(headA == null || headB == null){
+            return null;
+        }
+
+        ListNode ha= headA;
+        ListNode hb= headB;
+
+        while(ha != hb){
+            ha= (ha == null) ? headB : ha.next;
+            hb= (hb == null) ? headA : hb.next;
+        }
+
+        return ha; 
+    }
+}
