@@ -1,0 +1,136 @@
+//Approach 1 : Using Stack
+//TC : O(n)
+//SC : O(n)
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode temp = head;
+        Stack<Integer> stack= new Stack<>();
+
+        while(temp != null){
+            stack.push(temp.val);
+            temp = temp.next;
+        }
+
+        temp = head;
+        while(temp != null && temp.val == stack.pop()){
+            temp = temp.next;
+        }
+        return temp == null;
+    }
+}
+
+//Approach 2 : Using List
+//TC : O(n)
+//SC : O(n)
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        ListNode temp = head;
+        List<Integer> list = new ArrayList<>();
+
+        while(temp != null){
+            list.add(temp.val);
+            temp = temp.next;
+        }
+
+        int left = 0;
+        int right = list.size() - 1;
+
+        while(left < right){
+            if(list.get(left) != list.get(right)){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+}
+
+//Approach 3 : Recursive
+//TC : O(n)
+//SC : O(n)
+class Solution {
+/*
+Because Java is pass-by-value, and you cannot pass and update a reference like curr across recursive calls without explicitly returning and re-passing it — which would break the elegant recursive design.
+
+If curr were a local variable, each recursive call would have its own copy, and you wouldn't be able to move the curr pointer forward correctly across calls.
+
+*/
+    ListNode curr;
+
+    public boolean isPalindrome(ListNode head) {
+        curr = head;
+        return solve(head);
+    }
+
+    public boolean solve(ListNode head){
+        if(head == null) return true;
+        boolean isPalindorme = solve(head.next) && (head.val == curr.val);
+        curr = curr.next;
+        return isPalindorme;
+    }
+}
+
+//Approach 4 : Two pointer
+//TC : O(n)
+//SC : O(1)
+class Solution {
+    public boolean isPalindrome(ListNode head) {
+        if(head == null || head.next == null) return true;
+        //Step 1 : find middle of LL
+        ListNode middle = findMiddle(head);
+        //Step 2 : reverse the second half
+        ListNode reverseSecondHalf = reverse(middle);
+        //Step 3 : check if LL is a palindome
+        boolean res = checkPalindrome(head,reverseSecondHalf);
+
+        return res;
+       
+    }
+
+    private ListNode findMiddle(ListNode head){
+        ListNode slow = head;
+        ListNode fast = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    private ListNode reverse(ListNode head){
+        ListNode prev= null;
+        ListNode curr = head;
+
+        while(curr != null){
+            ListNode temp = curr.next;
+            curr.next= prev;
+            prev= curr;
+            curr= temp;
+        }
+        return prev;
+    }
+
+    private boolean checkPalindrome(ListNode firstH, ListNode secH){
+        while(secH != null){
+            if(firstH.val != secH.val){
+                return false;
+            }
+            firstH = firstH.next;
+            secH = secH.next;
+        }  
+        return true;
+    }
+}
+
+
