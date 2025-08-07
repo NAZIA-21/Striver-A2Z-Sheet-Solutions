@@ -1,0 +1,108 @@
+//Approach 1: Brute force
+//TC : O(N log N)
+//SC : O(N)
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+
+        ListNode temp = head;
+        List<ListNode> list = new ArrayList<>();
+        while (temp != null) {
+            list.add(temp);
+            temp = temp.next;
+        }
+        Collections.sort(list, (a, b) -> Integer.compare(a.val, b.val));
+        head = list.get(0);
+        temp = head;
+        for (int i = 1; i < list.size(); i++) {
+            temp.next = list.get(i);
+            temp = temp.next;
+        }
+        temp.next = null;
+        return head;
+    }
+}
+
+//Approach 2 : Optimal
+//TC : O(N log N)
+//SC : O(N log N)
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        //find middle of LL
+        ListNode mid = findMid(head);
+
+        ListNode right = mid.next;
+        mid.next = null;
+        ListNode left = head;
+
+        left = sortList(left);
+        right = sortList(right);
+
+        return mergeTwoSortedLL(left, right);
+    }
+
+    private ListNode findMid(ListNode head){
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        ListNode slow = head;
+        ListNode fast = head.next;
+
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+
+    private ListNode mergeTwoSortedLL(ListNode left, ListNode right){
+        ListNode dummy = new ListNode(-1);
+        ListNode curr = dummy;
+
+        while(left != null && right != null){
+            if(left.val <= right.val){
+                curr.next = left;
+                left = left.next;
+            } else{
+                curr.next = right;
+                right = right.next;
+            }
+            curr = curr.next;
+        }
+
+        if(left != null){
+            curr.next = left;
+        } else{
+            curr.next = right;
+        }
+
+        return dummy.next;
+    }
+}
