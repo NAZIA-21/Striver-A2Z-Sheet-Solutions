@@ -1,0 +1,101 @@
+//Approach 1 : Two pointer approach
+//TC : O(n)
+//SC : O(1)
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        //Step 1 : find LL length
+        int size = 0;
+        ListNode temp = head;
+        while(temp != null){
+            size++;
+            temp = temp.next;
+        }
+
+        //Step 2 : Noramlize k
+        k  = k % size;
+
+        if(k == 0){
+            return head;
+        }
+
+        //Step 3 : node before new head
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while(k-- > 0){
+            fast = fast.next;
+        }
+
+        while(fast.next != null){
+            slow = slow.next;
+            fast = fast.next;
+        }
+        //Step 4 : new head
+        ListNode newHead = slow.next;
+        slow.next = null;
+        fast.next = head;
+
+        return newHead;
+    }
+}
+
+//Approach 2 : Cicular LL approach
+//TC : O(n)
+//SC : O(1)
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if(head == null || head.next == null || k==0){
+            return head;
+        }
+
+        //Step 1 : find length of LL
+        int size = 1;
+        ListNode temp = head;
+        while(temp.next != null){
+            temp = temp.next;
+            size++;
+        }
+
+        //Step 2 : make the LL circular
+        temp.next = head;
+
+        //Step 3 
+        k = k % size;//in case k is greater than size
+        k = size - k;//new head's position
+
+        //Step 4 : find the new head position
+        while(k-- > 0){
+            temp = temp.next;
+        }
+
+        //Step 5 : Make the next of node before new head null
+        head = temp.next;
+        temp.next = null;
+        
+        return head;
+    }
+}
