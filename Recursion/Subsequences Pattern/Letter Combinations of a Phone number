@@ -1,0 +1,121 @@
+//Approach 1 : Iterative (Breadth-First Search) Approach
+//TC : 4^n.n
+//SC : 4^n.n
+class Solution {
+  public List<String> letterCombinations(String digits) {
+    if (digits.isEmpty())
+      return new ArrayList<>();
+
+    List<String> ans = new ArrayList<>();
+    ans.add("");
+    final String[] digitToLetters = {"",    "",    "abc",  "def", "ghi",
+                                     "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    for (final char d : digits.toCharArray()) {
+      List<String> temp = new ArrayList<>();
+      for (final String s : ans)
+        for (final char c : digitToLetters[d - '0'].toCharArray())
+          temp.add(s + c);
+      ans = temp;
+    }
+
+    return ans;
+  }
+}
+
+//Approach 2 : Recursive with String Concatenation
+//TC : 4^n.n
+//SC : 4^n.n
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        if(digits.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        List<String> ans = new ArrayList<>();
+        phonePad("", digits, ans);
+        return ans;
+    }
+
+    private static final String[] digitToLetter = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    private void phonePad(String processed, String unProcessed, List<String> result){
+        if(unProcessed.isEmpty()){
+            result.add(processed);
+            return;
+        }
+
+        int digit = unProcessed.charAt(0) - '0';
+
+        String letters = digitToLetter[digit];
+
+        for(int i=0; i < letters.length(); i++){
+            char ch = letters.charAt(i);
+            phonePad(processed + ch, unProcessed.substring(1), result);
+        }
+    }
+}
+
+
+//Approach 3 : Recursive with StringBuilder and index
+//TC : 4^n
+//SC : 4^n.n
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        if(digits.isEmpty()){
+            return new ArrayList<>();
+        }
+        List<String> ans= new ArrayList<>();
+        dfs(digits, 0, new StringBuilder(), ans);
+        return ans;
+        
+    }
+    private static final String[] digitsToLetter= {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    private void dfs(String digits, int i,StringBuilder sb ,List<String> ans){
+        if(i== digits.length()){
+            ans.add(sb.toString());
+            return;
+        }
+        for(char c: digitsToLetter[digits.charAt(i)- '0'].toCharArray()){
+            sb.append(c);
+            dfs(digits, i+1, sb, ans);
+            sb.deleteCharAt(sb.length()-1);
+        }
+    }
+}
+
+
+//Approach 4 : Recursive with StringBuilder and unProcessed String
+//TC : 4^n
+//SC : 4^n.n
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        if(digits.isEmpty()){
+            return new ArrayList<>();
+        }
+
+        List<String> ans = new ArrayList<>();
+        phonePad(new StringBuilder(), digits, ans);
+        return ans;
+    }
+
+    private static final String[] digitToLetter = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+
+    private void phonePad(StringBuilder processed, String unProcessed, List<String> result){
+        if(processed.length() == unProcessed.length()){
+            result.add(processed.toString());
+            return;
+        }
+
+        int digit = unProcessed.charAt(processed.length()) - '0';
+
+        String letters = digitToLetter[digit];
+
+        for(int i=0; i < letters.length(); i++){
+            char ch = letters.charAt(i);
+            phonePad( processed.append(ch), unProcessed, result);
+            processed.deleteCharAt(processed.length() - 1);
+        }
+    }
+}
