@@ -1,0 +1,29 @@
+//TC : O(2^9 * k)
+//Sc : O(C*k)
+class Solution {
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> ans = new ArrayList<>();
+        findCombination(1, k, n, ans, new ArrayList<>());
+        return ans;
+    }
+
+    private void findCombination(int i, int k, int n, List<List<Integer>> ans, List<Integer> curr){
+        if(k == 0 && n == 0){
+            ans.add(curr);
+            return;
+        }
+
+        if(k < 0 || n < 0){
+            return;
+        }
+
+        if(i > 9) return;
+
+        List<Integer> temp = new ArrayList<>(curr);
+        temp.add(i);
+        //pick
+        findCombination(i+1, k - 1, n - i, ans, temp);
+        //not pick
+        findCombination(i+1, k, n, ans, curr);
+    }
+}
