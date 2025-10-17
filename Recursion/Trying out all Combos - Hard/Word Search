@@ -1,0 +1,53 @@
+//TC : O(M × N × 4^L)
+//SC : O(L)
+class Solution {
+    private int rows;
+    private int cols;
+    private String tarWord;
+    private char charBoard[][];
+
+    public boolean exist(char[][] board, String word) {
+        rows = board.length;
+        cols = board[0].length;
+        tarWord = word;
+        charBoard = board;
+        
+        for(int r = 0; r < rows; r++){
+            for(int c = 0; c < cols; c++){
+                if(solve(r, c, 0)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean solve(int row, int col, int idx){
+
+        if(idx == tarWord.length() - 1){
+            return charBoard[row][col] == tarWord.charAt(idx);
+        }
+
+        if(charBoard[row][col] != tarWord.charAt(idx)){
+            return false;
+        }
+
+        char tempChar = tarWord.charAt(idx);
+        charBoard[row][col] = '0';
+
+        int[] dirs = {-1, 0, 1, 0, -1};
+
+        for(int d = 0; d < 4; d++){
+
+            int newRow = row + dirs[d];
+            int newCol = col + dirs[d+1];
+
+            if(newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols && charBoard[newRow][newCol] != '0'){
+                if(solve(newRow, newCol, idx + 1)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
