@@ -1,3 +1,36 @@
+//Approach 1:
+//TC : O(n)
+//SC: O(1)
+class Solution {
+    public int largestElement(int[] nums) {
+        int largest = nums[0];
+        int n = nums.length;
+
+        for(int i= 1; i< n; i++){
+            if(nums[i] > largest){
+                largest = nums[i];
+            }
+        }
+    return largest;
+    }
+
+    public int secondLargestElement(int[] nums) {
+        int largest = largestElement(nums);
+        int secondLargest = Integer.MIN_VALUE;
+
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] > secondLargest && nums[i] < largest) {
+                secondLargest = nums[i];
+            }
+        }
+
+        return secondLargest == Integer.MIN_VALUE ? -1 : secondLargest;
+    }
+}
+
+//Approach 2:
+//TC : O(n)
+//SC: O(1)
 class Solution {
     public int getSecondLargest(int[] arr) {
         
